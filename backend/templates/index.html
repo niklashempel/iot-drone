@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAVProxy Controller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        #response {
+            margin-top: 20px;
+            color: green;
+        }
+
+        #error {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>MAVProxy Command Interface</h1>
+    <button onclick="sendCommand('arm')">Arm</button>
+    <button onclick="sendCommand('disarm')">Disarm</button>
+    <div id="response"></div>
+    <div id="error"></div>
+    <script>
+        async function sendCommand(command) {
+            try {
+                document.getElementById('response').textContent = '';
+                document.getElementById('error').textContent = '';
+
+                const response = await fetch('http://127.0.0.1:5000/command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: command })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send command: ' + (await response.text()));
+                }
+
+                const data = await response.json();
+                document.getElementById('response').textContent = 'Response: ' + JSON.stringify(data);
+            } catch (error) {
+                document.getElementById('error').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+
+</html>
