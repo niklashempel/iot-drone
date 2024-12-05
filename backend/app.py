@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify, render_template
-from pymavlink import mavutil
+from drone import Drone
 
 app = Flask(__name__)
 
-# Connect to MAVProxy's UDP interface
-master = mavutil.mavlink_connection('udp:127.0.0.1:14550')
-master.wait_heartbeat()
+drone = Drone()
+drone.connect()
 
 # Serve the HTML file
 @app.route('/')
@@ -19,21 +18,13 @@ def send_command():
         return jsonify({"error": "No command provided"}), 400
 
     if command == "arm":
-        master.mav.command_long_send(
-            master.target_system,
-            master.target_component,
-            mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
-            0, 1, 0, 0, 0, 0, 0, 0
-        )
-        return jsonify({"status": "Vehicle armed"})
+        return jsonify(drone.arm()), 200
     elif command == "disarm":
-        master.mav.command_long_send(
-            master.target_system,
-            master.target_component,
-            mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
-            0, 0, 0, 0, 0, 0, 0, 0
-        )
-        return jsonify({"status": "Vehicle disarmed"})
+        return jsonify(drone.disarm()), 200
+    elif command == "takeoff":
+        return jsonify(drone.takeoff()), 200
+    elif command == "land":
+        return jsonify(drone.land()), 200
     else:
         return jsonify({"error": "Unsupported command"}), 400
 

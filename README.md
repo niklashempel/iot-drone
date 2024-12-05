@@ -22,3 +22,22 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+## MAVLink Communication
+
+Fly up and down:
+
+```sh
+mode stabilize
+arm throttle
+mode *guided*
+takeoff 10
+mode alt_hold
+land
+```
+
+Status:
+
+```sh
+status
+```

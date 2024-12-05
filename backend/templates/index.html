@@ -4,57 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAVProxy Controller</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        #response {
-            margin-top: 20px;
-            color: green;
-        }
-
-        #error {
-            margin-top: 20px;
-            color: red;
-        }
-    </style>
+    <title>Drone Control</title>
 </head>
 
 <body>
-    <h1>MAVProxy Command Interface</h1>
+    <h1>Drone Control</h1>
     <button onclick="sendCommand('arm')">Arm</button>
     <button onclick="sendCommand('disarm')">Disarm</button>
+    <button onclick="sendCommand('takeoff')">Takeoff</button>
+    <button onclick="sendCommand('land')">Land</button>
     <div id="response"></div>
     <div id="error"></div>
+    <div id="telemetry"></div>
     <script>
         async function sendCommand(command) {
             try {
                 document.getElementById('response').textContent = '';
                 document.getElementById('error').textContent = '';
 
+                const body = { command: command };
+                if (command === 'takeoff') {
+                    body.altitude = 10;  // Default takeoff altitude is 10 meters
+                }
+
                 const response = await fetch('http://127.0.0.1:5000/command', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ command: command })
+                    body: JSON.stringify(body)
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to send command: ' + (await response.text()));
+                    throw new Error('Failed to send command');
                 }
 
                 const data = await response.json();
-                document.getElementById('response').textContent = 'Response: ' + JSON.stringify(data);
+                document.getElementById('response').textContent = JSON.stringify(data);
             } catch (error) {
-                document.getElementById('error').textContent = 'Error: ' + error.message;
+                document.getElementById('error').textContent = error.message;
             }
         }
     </script>
