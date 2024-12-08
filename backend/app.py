@@ -1,13 +1,17 @@
+import time
 from flask import Flask, request, jsonify, render_template
 from drone import Drone
+from api import MAVLink2Rest
 
 app = Flask(__name__)
+api = MAVLink2Rest()
 
 drone = Drone()
 drone.connect()
 
 # Serve the HTML file
 @app.route('/')
+@app.route('/index.html')
 def home():
     return render_template('index.html')
 
@@ -18,9 +22,15 @@ def send_command():
         return jsonify({"error": "No command provided"}), 400
 
     if command == "arm":
-        return jsonify(drone.arm()), 200
+        drone.arm()
+        time.sleep(1)
+        armed = api.is_armed()
+        return jsonify(armed), 200
     elif command == "disarm":
-        return jsonify(drone.disarm()), 200
+        drone.disarm()
+        time.sleep(1)
+        disarmed = not api.is_armed()
+        return jsonify(disarmed), 200
     elif command == "takeoff":
         return jsonify(drone.takeoff()), 200
     elif command == "land":

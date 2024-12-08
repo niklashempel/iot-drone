@@ -21,16 +21,6 @@ class Drone:
             0, 1, 0, 0, 0, 0, 0, 0
         )
         print("Sent arm command")
-        for _ in range(3):
-            response = self.connection.recv_match(type='HEARTBEAT', blocking=False, timeout=3)
-            if response:
-                armed = response.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED
-                if armed:
-                    print(f"Vehicle armed")
-                    return {"status": "Vehicle armed"}
-            time.sleep(0.5)
-        print(f"Vehicle not armed")
-        return {"status": "Vehicle not armed"}
 
     def disarm(self):
         self.connection.mav.command_long_send(
@@ -40,15 +30,7 @@ class Drone:
             0, 0, 0, 0, 0, 0, 0, 0
         )
         print("Sent disarm command")
-        for _ in range(3):
-            response = self.connection.recv_match(type='HEARTBEAT', blocking=False, timeout=3)
-            if response:
-                armed = response.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED
-                if not armed:
-                    print(f"Vehicle disarmed")
-                    return {"status": "Vehicle disarmed"}
-            time.sleep(0.5)
-            
+        
     def takeoff(self, altitude=10):
         self.connection.mav.command_long_send(
             self.connection.target_system,

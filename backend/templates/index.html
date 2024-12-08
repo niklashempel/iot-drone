@@ -4,18 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drone Control</title>
+    <title>Drone Control and Sensor Data</title>
+    <style>
+        #container {
+            display: flex;
+        }
+
+        #control-panel,
+        #sensor-data {
+            flex: 1;
+            padding: 20px;
+        }
+
+        #sensor-data {
+            border-left: 1px solid #ccc;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Drone Control</h1>
-    <button onclick="sendCommand('arm')">Arm</button>
-    <button onclick="sendCommand('disarm')">Disarm</button>
-    <button onclick="sendCommand('takeoff')">Takeoff</button>
-    <button onclick="sendCommand('land')">Land</button>
-    <div id="response"></div>
-    <div id="error"></div>
-    <div id="telemetry"></div>
+    <div id="container">
+        <div id="control-panel">
+            <h1>Drone Control</h1>
+            <button onclick="sendCommand('arm')">Arm</button>
+            <button onclick="sendCommand('disarm')">Disarm</button>
+            <button onclick="sendCommand('takeoff')">Takeoff</button>
+            <button onclick="sendCommand('land')">Land</button>
+            <div id="response"></div>
+            <div id="error"></div>
+        </div>
+        <div id="sensor-data">
+            <div id="last-update">Last update: </div>
+            <div id="message">Message: </div>
+            <pre><code id="json-data"></code></pre>
+        </div>
+    </div>
+
     <script>
         async function sendCommand(command) {
             try {
@@ -43,6 +67,98 @@
                 document.getElementById('error').textContent = error.message;
             }
         }
+
+        const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))
+        const WSAPI = `ws://0.0.0.0:8088`
+
+        function connectWebsocket() {
+            const parameters = new URLSearchParams(location.search);
+            const path = parameters.get("path") ?? '';
+            const socket = new WebSocket(`${WSAPI}/v1/ws/mavlink`);
+
+            const pathParts = path.split('/')
+            pathParts.shift() // Remove mavlink string
+            pathParts.shift() // Remove vehicle string
+            let vehicleId = pathParts.shift()
+            vehicleId = vehicleId ? parseInt(vehicleId) : undefined
+            pathParts.shift() // Remove components string
+            let componentId = pathParts.shift()
+            componentId = componentId ? parseInt(componentId) : undefined
+            pathParts.shift() // Remove messages string
+            const messageName = pathParts.shift()
+
+            if (messageName) {
+                socket.onopen = (e) => {
+                    console.log("[open] Websocket connection established");
+                    fetch(path)
+                        .then((response) => {
+                            if (!response.ok) {
+                                console.error(`HTTP error ${response.status}`);
+                            }
+                            response.json()
+                                .then((data) => {
+                                    delete data.status
+                                    setMessage(data.message)
+                                })
+                                .catch((error) => {
+                                    console.error('Error transforming data to json:', error);
+                                });
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching data:', error);
+                        });
+                };
+            }
+
+            socket.onmessage = (event) => {
+                let jsonData = JSON.parse(event.data);
+
+                if (vehicleId !== undefined && jsonData.header.system_id !== vehicleId) {
+                    return
+                }
+                if (componentId !== undefined && jsonData.header.component_id !== componentId) {
+                    return
+                }
+
+                if (messageName !== undefined && jsonData.message.type !== messageName) {
+                    return
+                }
+
+                jsonData = pathParts.reduce((a, b) => a[b], jsonData)
+                if (typeof jsonData === 'object' && ('header' in jsonData && 'message' in jsonData)) {
+                    setMessage(jsonData.message)
+                } else {
+                    setMessage(jsonData)
+                }
+
+                document.getElementById('last-update').innerText = `Last update: ${new Date().toLocaleString()}`;
+            };
+
+            socket.onclose = (event) => {
+                if (event.wasClean) {
+                    console.log(
+                        `[close] Websocket connection closed cleanly, code=${event.code} reason=${event.reason}`
+                    );
+                } else {
+                    console.log("[close] Websocket connection died");
+                }
+                setTimeout(connectWebsocket, 4000);
+            };
+
+            socket.onerror = (error) => {
+                console.log(`[error] Websocket error: ${error.message}`);
+            };
+        }
+
+        function setMessage(jsonData) {
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            const jsonCode = document.getElementById("json-data");
+            jsonCode.innerHTML = jsonString;
+            hljs.highlightBlock(jsonCode);
+            document.getElementById('message').innerText = `Message: ${jsonData.type}`;
+        }
+
+        connectWebsocket();
     </script>
 </body>
 
