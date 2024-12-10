@@ -71,3 +71,6 @@ class Drone:
             # Print the ACK result !
             print(mavutil.mavlink.enums['MAV_RESULT'][ack_msg['result']].description)
             break
+
+    def get_modes(self):
+        return self.connection.mode_mapping()
