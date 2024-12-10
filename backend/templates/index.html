@@ -36,9 +36,18 @@
             <div id="error"></div>
         </div>
         <div id="sensor-data">
-            <div id="last-update">Last update: </div>
-            <div id="message">Message: </div>
-            <pre><code id="json-data"></code></pre>
+            <div class="sensor-section">
+                <h2>Heartbeat</h2>
+                <div id="heartbeat-last-update">Last update: </div>
+                <div id="heartbeat-message">Message: </div>
+                <pre><code id="heartbeat-json-data"></code></pre>
+            </div>
+            <div class="sensor-section">
+                <h2>Global Position</h2>
+                <div id="global-position-last-update">Last update: </div>
+                <div id="global-position-message">Message: </div>
+                <pre><code id="global-position-json-data"></code></pre>
+            </div>
         </div>
     </div>
 
@@ -186,9 +195,18 @@
 
         function setMessage(jsonData) {
             const jsonString = JSON.stringify(jsonData, null, 2);
-            const jsonCode = document.getElementById("json-data");
-            jsonCode.innerHTML = jsonString;
-            document.getElementById('message').innerText = `Message: ${jsonData.type}`;
+            if (jsonData.type === 'HEARTBEAT') {
+                document.getElementById("heartbeat-json-data").innerHTML = jsonString;
+                document.getElementById('heartbeat-message').innerText = `Message: ${jsonData.type}`;
+                document.getElementById('heartbeat-last-update').innerText = `Last update: ${new Date().toLocaleString()}`;
+            } else if (jsonData.type === 'GLOBAL_POSITION_INT') {
+                document.getElementById("global-position-json-data").innerHTML = jsonString;
+                document.getElementById('global-position-message').innerText = `Message: ${jsonData.type}`;
+                document.getElementById('global-position-last-update').innerText = `Last update: ${new Date().toLocaleString()}`;
+            } else {
+                return;
+            }
+
         }
 
         document.addEventListener('DOMContentLoaded', fetchModes);
