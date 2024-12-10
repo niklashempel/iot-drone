@@ -27,6 +27,13 @@
         <div id="control-panel">
             <h1>Drone Control</h1>
             <button onclick="sendCommand('arm')">Arm</button>
+            <select id="select_mode">
+                <option>GUIDED</option>
+                <option>POSHOLD</option>
+                <option>STABILIZE</option>
+                <option>LAND</option>
+            </select>
+            <button onclick="sendCommand('change_mode')">Change mode</button>
             <button onclick="sendCommand('disarm')">Disarm</button>
             <button onclick="sendCommand('takeoff')">Takeoff</button>
             <button onclick="sendCommand('land')">Land</button>
@@ -49,6 +56,8 @@
                 const body = { command: command };
                 if (command === 'takeoff') {
                     body.altitude = 10;  // Default takeoff altitude is 10 meters
+                } else if (command === 'change_mode') {
+                    body.mode = document.getElementById('select_mode').value;
                 }
 
                 const response = await fetch('http://127.0.0.1:5000/command', {

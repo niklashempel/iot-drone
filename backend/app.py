@@ -35,6 +35,9 @@ def send_command():
         return jsonify(drone.takeoff()), 200
     elif command == "land":
         return jsonify(drone.land()), 200
+    elif command == "change_mode":
+        mode = request.json.get("mode")
+        return jsonify(drone.change_mode(mode)), 200
     else:
         return jsonify({"error": "Unsupported command"}), 400
 
