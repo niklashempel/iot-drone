@@ -57,7 +57,7 @@ class Drone:
         mode_id = self.connection.mode_mapping()[mode]
         # Set new mode
         self.connection.set_mode(mode_id)
-        while True:
+        for _ in range(0, 10):
             # Wait for ACK command
             # Would be good to add mechanism to avoid endlessly blocking
             # if the autopilot sends a NACK or never receives the message
@@ -71,5 +71,3 @@ class Drone:
             # Print the ACK result !
             print(mavutil.mavlink.enums['MAV_RESULT'][ack_msg['result']].description)
             break
-
-        return f"Changed mode to {mode}"

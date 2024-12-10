@@ -14,6 +14,19 @@ git clone --recurse-submodules
 cd iot-drone
 ```
 
+Init ardupilot (follow https://ardupilot.org/dev/docs/building-the-code.html#building-the-code)
+
+For Linux:
+
+```sh
+# deactivate the virtual environment if you are in it
+deactivate
+cd ardupilot
+Tools/environment_install/install-prereqs-ubuntu.sh -y
+./waf configure --board fmuv3
+./waf copter
+```
+
 Init virtual environment:
 
 ```sh
@@ -23,23 +36,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Init ardupilot (follow https://ardupilot.org/dev/docs/building-the-code.html#building-the-code)
-
-For Linux:
-
-```sh
-cd ardupilot
-Tools/environment_install/install-prereqs-ubuntu.sh -y
-./waf configure --board fmuv3
-./waf copter
-```
-
 Start services
 
 ```sh
 # make sure you are at root level of the repository
 
 ./ardupilot/Tools/autotest/sim_vehicle.py -v copter --console --map -w --out 127.0.0.1:14550 --out 127.0.0.1:14551 &
+./mavlink2rest/mavlink2rest-x86_64-unknown-linux-musl -c udpin:0.0.0.0:14551
 ```
 
 ## MAVLink Communication

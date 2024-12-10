@@ -37,9 +37,27 @@ def send_command():
         return jsonify(drone.land()), 200
     elif command == "change_mode":
         mode = request.json.get("mode")
-        return jsonify(drone.change_mode(mode)), 200
+        drone.change_mode(mode)
+        current_mode = api.get_current_mode()
+        return jsonify({"current_mode": current_mode}), 200
     else:
         return jsonify({"error": "Unsupported command"}), 400
 
+@app.route('/status', methods=['GET'])
+def get_status():
+    current_mode = api.get_current_mode()
+    print(current_mode)
+    return jsonify(current_mode), 200
+
+@app.route('/modes', methods=['GET'])
+def get_modes():
+    modes = drone.get_modes()
+    return jsonify(list(modes.keys())), 200
+
+@app.route('/modes/current', methods=['GET'])
+def get_current_mode():
+    current_mode = api.get_current_mode()
+    return jsonify(current_mode), 200
+                        
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

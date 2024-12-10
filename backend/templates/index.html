@@ -27,12 +27,7 @@
         <div id="control-panel">
             <h1>Drone Control</h1>
             <button onclick="sendCommand('arm')">Arm</button>
-            <select id="select_mode">
-                <option>GUIDED</option>
-                <option>POSHOLD</option>
-                <option>STABILIZE</option>
-                <option>LAND</option>
-            </select>
+            <select id="select_mode"></select>
             <button onclick="sendCommand('change_mode')">Change mode</button>
             <button onclick="sendCommand('disarm')">Disarm</button>
             <button onclick="sendCommand('takeoff')">Takeoff</button>
@@ -48,6 +43,36 @@
     </div>
 
     <script>
+        async function fetchModes() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/modes');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch modes');
+                }
+                const modes = await response.json();
+                const select = document.getElementById('select_mode');
+                modes.forEach(mode => {
+                    const option = document.createElement('option');
+                    option.value = mode;
+                    option.textContent = mode;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching modes:', error);
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/modes/current');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch current mode');
+                }
+                const currentMode = await response.json();
+                document.getElementById('select_mode').value = currentMode;
+            } catch (error) {
+                console.error('Error fetching current mode:', error);
+            }
+        }
+
         async function sendCommand(command) {
             try {
                 document.getElementById('response').textContent = '';
@@ -163,10 +188,10 @@
             const jsonString = JSON.stringify(jsonData, null, 2);
             const jsonCode = document.getElementById("json-data");
             jsonCode.innerHTML = jsonString;
-            hljs.highlightBlock(jsonCode);
             document.getElementById('message').innerText = `Message: ${jsonData.type}`;
         }
 
+        document.addEventListener('DOMContentLoaded', fetchModes);
         connectWebsocket();
     </script>
 </body>
