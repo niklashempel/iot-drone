@@ -39,11 +39,120 @@
         "sessionExpiry": ""
     },
     {
+        "id": "090cd81984289984",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "showPageTitle": true,
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "bb1d6509be504798",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "fd2ca1fe22236cb5",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "090cd81984289984",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "bb1d6509be504798",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "abad05159d44bdd0",
+        "type": "ui-group",
+        "name": "Drone Dashboard",
+        "page": "fd2ca1fe22236cb5",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
         "id": "e892cdafa0face65",
         "type": "mqtt in",
         "z": "a3f29ed2e61d945b",
-        "name": "",
-        "topic": "*",
+        "name": "AHRS2",
+        "topic": "iotdrone/AHRS2",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "12dca2890debaaa3"
+            ]
+        ]
+    },
+    {
+        "id": "8f2a07a8d6caa617",
+        "type": "mqtt in",
+        "z": "a3f29ed2e61d945b",
+        "name": "SYS_STATUS",
+        "topic": "iotdrone/SYS_STATUS",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "fbe18a22f08badf1",
@@ -51,10 +160,457 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 90,
-        "y": 140,
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "2b0e558b06b3e180"
+            ]
+        ]
+    },
+    {
+        "id": "e6b910d81ab2dd91",
+        "type": "mqtt in",
+        "z": "a3f29ed2e61d945b",
+        "name": "HEARTBEAT",
+        "topic": "iotdrone/HEARTBEAT",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 600,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "2b0e558b06b3e180",
+        "type": "json",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "009b7e38581b90a1",
+                "8b644dc1dac3a0ae"
+            ]
+        ]
+    },
+    {
+        "id": "009b7e38581b90a1",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "Battery remaining",
+        "func": "\nreturn [{ \"payload\": msg.payload.battery_remaining }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 80,
+        "wires": [
+            [
+                "f2a03f3ab5eaca22",
+                "de9368968199d64f"
+            ]
+        ]
+    },
+    {
+        "id": "f2a03f3ab5eaca22",
+        "type": "debug",
+        "z": "a3f29ed2e61d945b",
+        "name": "battery_remaining",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "de9368968199d64f",
+        "type": "ui-gauge",
+        "z": "a3f29ed2e61d945b",
+        "name": "Battery remaning",
+        "group": "abad05159d44bdd0",
+        "order": 7,
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-battery",
+        "gstyle": "needle",
+        "title": "Battery",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800"
+            },
+            {
+                "from": "70",
+                "color": "#5cd65c"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 810,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8b644dc1dac3a0ae",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "Battery voltage Volt",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.voltage_battery / 1000}V` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 180,
+        "wires": [
+            [
+                "e4ecfd4b81b68dfa"
+            ]
+        ]
+    },
+    {
+        "id": "e4ecfd4b81b68dfa",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "Battery voltage",
+        "label": "Voltage",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 800,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "12dca2890debaaa3",
+        "type": "json",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 300,
+        "wires": [
+            [
+                "88850ebc6600c796",
+                "f484c3d4cf101d40",
+                "ec7c649c6107fd6b",
+                "7de286714a07f238",
+                "54adebd648546d65",
+                "d31978386ee285cd"
+            ]
+        ]
+    },
+    {
+        "id": "0999a3910531f7de",
+        "type": "json",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "88850ebc6600c796",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "roll",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.roll}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 280,
+        "wires": [
+            [
+                "803c2d176dac413b"
+            ]
+        ]
+    },
+    {
+        "id": "f484c3d4cf101d40",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "pitch",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.pitch}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 320,
+        "wires": [
+            [
+                "93d28f94b0a51473"
+            ]
+        ]
+    },
+    {
+        "id": "ec7c649c6107fd6b",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "yaw",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.yaw}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 360,
+        "wires": [
+            [
+                "efd408c7fac38cda"
+            ]
+        ]
+    },
+    {
+        "id": "7de286714a07f238",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "altitude",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.altitude}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 400,
+        "wires": [
+            [
+                "3a14f75912e8eb5c"
+            ]
+        ]
+    },
+    {
+        "id": "54adebd648546d65",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "lat",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.lat / 10_000_000}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 440,
+        "wires": [
+            [
+                "95ac7753b12db1e6"
+            ]
+        ]
+    },
+    {
+        "id": "d31978386ee285cd",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "long",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.lng / 10_000_000}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 480,
+        "wires": [
+            [
+                "20ec1ce65c7b3809"
+            ]
+        ]
+    },
+    {
+        "id": "803c2d176dac413b",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "name": "Roll",
+        "label": "Roll",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 730,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "93d28f94b0a51473",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "Pitch",
+        "label": "Pitch",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 730,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "efd408c7fac38cda",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Yaw",
+        "label": "Yaw",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 730,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3a14f75912e8eb5c",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Altitude",
+        "label": "Altitude",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 740,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "95ac7753b12db1e6",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Lat",
+        "label": "Lat",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 730,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "20ec1ce65c7b3809",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "abad05159d44bdd0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Long",
+        "label": "Long",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 730,
+        "y": 480,
+        "wires": []
     }
 ]
