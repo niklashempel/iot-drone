@@ -17,6 +17,8 @@ services:
       context: ./ardupilot-sitl
     container_name: ardupilot-sitl
     network_mode: host
+    depends_on:
+      - mqtt
     ports:
       - "14550:14550"
 
