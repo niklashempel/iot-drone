@@ -12,6 +12,14 @@ services:
     networks:
       - drone-network
 
+  ardupilot-sitl:
+    build:
+      context: ./ardupilot-sitl
+    container_name: ardupilot-sitl
+    network_mode: host
+    ports:
+      - "14550:14550"
+
   node-red:
     image: nodered/node-red
     container_name: node-red
