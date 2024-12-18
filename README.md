@@ -3,46 +3,55 @@
 ## Description
 
 This repository contains the code for the IoT Drone project. The project is a drone that can be controlled via a web interface. The drone is a Pixhawk 2.4.8. The web interface is a Flask server that communicates with the drone via MAVLink.
-This repository includes `ArduCopter` as a submodule. This way, we can use the SITL (Software In The Loop) to test the drone's behavior without having to fly it.
+
+## Pre-requisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Python 3](https://www.python.org/downloads/)
+- [MAVProxy](https://ardupilot.org/mavproxy/docs/getting_started/download_and_installation.html)
+
+⚠️ After installing MAVProxy, we have to install a python package, that is required for the MQTT module. To do so, run the following command: `pip3 install paho-mqtt<2`
 
 ## Quick Start
 
-Clone the repository including the submodules:
+Depending on whether we use a real drone or a simulated drone, we may can omit starting the simulator SITL.
+
+### Real drone
+
+Start MQTT Server and node-red
 
 ```sh
-git clone --recurse-submodules
-cd iot-drone
+docker compose up mqtt node-red
 ```
 
-Init ardupilot (follow https://ardupilot.org/dev/docs/building-the-code.html#building-the-code)
-
-For Linux:
+Start MAVProxy
 
 ```sh
-# deactivate the virtual environment if you are in it
-deactivate
-cd ardupilot
-Tools/environment_install/install-prereqs-ubuntu.sh -y
-./waf configure --board fmuv3
-./waf copter
+mavproxy.py --master=tcp:127.0.0.1:5760 --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
 ```
 
-Init virtual environment:
+Start the Flask server
 
 ```sh
 cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+python app.py
 ```
 
-Start services
+### Simulated drone
+
+Start MQTT Server, node-red and SITL
 
 ```sh
-# make sure you are at root level of the repository
+docker compose up mqtt node-red ardupilot-sitl
+```
 
-./ardupilot/Tools/autotest/sim_vehicle.py -v copter --console --map -w --out 127.0.0.1:14550 --out 127.0.0.1:14551 &
-./mavlink2rest/mavlink2rest-x86_64-unknown-linux-musl -c udpin:0.0.0.0:14551
+Start MAVProxy
+
+```sh
+mavproxy.py --master=tcp:127.0.0.1:5760 --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
 ```
 
 ## MAVLink Communication
