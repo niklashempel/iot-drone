@@ -2,7 +2,7 @@
     {
         "id": "a3f29ed2e61d945b",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "SYS_STATUS",
         "disabled": false,
         "info": "",
         "env": []
@@ -115,7 +115,7 @@
     {
         "id": "abad05159d44bdd0",
         "type": "ui-group",
-        "name": "Drone Dashboard",
+        "name": "AHRS2",
         "page": "fd2ca1fe22236cb5",
         "width": "6",
         "height": "1",
@@ -127,25 +127,18 @@
         "groupType": "default"
     },
     {
-        "id": "e892cdafa0face65",
-        "type": "mqtt in",
-        "z": "a3f29ed2e61d945b",
-        "name": "AHRS2",
-        "topic": "iotdrone/AHRS2",
-        "qos": "2",
-        "datatype": "json",
-        "broker": "fbe18a22f08badf1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 90,
-        "y": 300,
-        "wires": [
-            [
-                "12dca2890debaaa3"
-            ]
-        ]
+        "id": "2f2ef0710be32fdd",
+        "type": "ui-group",
+        "name": "Status",
+        "page": "fd2ca1fe22236cb5",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
     },
     {
         "id": "8f2a07a8d6caa617",
@@ -247,8 +240,8 @@
         "type": "ui-gauge",
         "z": "a3f29ed2e61d945b",
         "name": "Battery remaning",
-        "group": "abad05159d44bdd0",
-        "order": 7,
+        "group": "2f2ef0710be32fdd",
+        "order": 2,
         "width": 3,
         "height": 3,
         "gtype": "gauge-battery",
@@ -308,8 +301,8 @@
         "id": "e4ecfd4b81b68dfa",
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
-        "group": "abad05159d44bdd0",
-        "order": 6,
+        "group": "2f2ef0710be32fdd",
+        "order": 1,
         "width": 0,
         "height": 0,
         "name": "Battery voltage",
@@ -327,27 +320,6 @@
         "wires": []
     },
     {
-        "id": "12dca2890debaaa3",
-        "type": "json",
-        "z": "a3f29ed2e61d945b",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 350,
-        "y": 300,
-        "wires": [
-            [
-                "88850ebc6600c796",
-                "f484c3d4cf101d40",
-                "ec7c649c6107fd6b",
-                "7de286714a07f238",
-                "54adebd648546d65",
-                "d31978386ee285cd"
-            ]
-        ]
-    },
-    {
         "id": "0999a3910531f7de",
         "type": "json",
         "z": "a3f29ed2e61d945b",
@@ -362,11 +334,53 @@
         ]
     },
     {
+        "id": "e892cdafa0face65",
+        "type": "mqtt in",
+        "z": "a3f29ed2e61d945b",
+        "name": "AHRS2",
+        "topic": "iotdrone/AHRS2",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 320,
+        "wires": [
+            [
+                "12dca2890debaaa3"
+            ]
+        ]
+    },
+    {
+        "id": "12dca2890debaaa3",
+        "type": "json",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 320,
+        "wires": [
+            [
+                "88850ebc6600c796",
+                "f484c3d4cf101d40",
+                "ec7c649c6107fd6b",
+                "7de286714a07f238",
+                "54adebd648546d65",
+                "d31978386ee285cd"
+            ]
+        ]
+    },
+    {
         "id": "88850ebc6600c796",
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "roll",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.roll}` }];",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.roll.toFixed(4)}` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -374,10 +388,11 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 280,
+        "y": 300,
         "wires": [
             [
-                "803c2d176dac413b"
+                "803c2d176dac413b",
+                "ea36156bf1d16ec9"
             ]
         ]
     },
@@ -386,7 +401,7 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "pitch",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.pitch}` }];",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.pitch.toFixed(4) }` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -394,10 +409,11 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 320,
+        "y": 420,
         "wires": [
             [
-                "93d28f94b0a51473"
+                "93d28f94b0a51473",
+                "52428032261a2859"
             ]
         ]
     },
@@ -406,7 +422,7 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "yaw",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.yaw}` }];",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.yaw.toFixed(4)}` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -414,10 +430,11 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 360,
+        "y": 520,
         "wires": [
             [
-                "efd408c7fac38cda"
+                "efd408c7fac38cda",
+                "38e353616ee0d1f3"
             ]
         ]
     },
@@ -426,7 +443,7 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "altitude",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.altitude}` }];",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.altitude.toFixed(2)}` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -434,7 +451,7 @@
         "finalize": "",
         "libs": [],
         "x": 540,
-        "y": 400,
+        "y": 560,
         "wires": [
             [
                 "3a14f75912e8eb5c"
@@ -446,7 +463,7 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "lat",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.lat / 10_000_000}` }];",
+        "func": "\nreturn [{ \"payload\": `${(msg.payload.lat / 10_000_000).toFixed(2)}` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -454,7 +471,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 440,
+        "y": 600,
         "wires": [
             [
                 "95ac7753b12db1e6"
@@ -466,7 +483,7 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "long",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.lng / 10_000_000}` }];",
+        "func": "\nreturn [{ \"payload\": `${(msg.payload.lng / 10_000_000).toFixed(2)}` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -474,7 +491,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 480,
+        "y": 640,
         "wires": [
             [
                 "20ec1ce65c7b3809"
@@ -485,8 +502,9 @@
         "id": "803c2d176dac413b",
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
+        "d": true,
         "group": "abad05159d44bdd0",
-        "order": 8,
+        "order": 4,
         "width": 0,
         "height": 0,
         "name": "Roll",
@@ -500,15 +518,16 @@
         "wrapText": false,
         "className": "",
         "x": 730,
-        "y": 280,
+        "y": 300,
         "wires": []
     },
     {
         "id": "93d28f94b0a51473",
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
+        "d": true,
         "group": "abad05159d44bdd0",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "name": "Pitch",
@@ -522,15 +541,16 @@
         "wrapText": false,
         "className": "",
         "x": 730,
-        "y": 320,
+        "y": 420,
         "wires": []
     },
     {
         "id": "efd408c7fac38cda",
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
+        "d": true,
         "group": "abad05159d44bdd0",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "Yaw",
@@ -544,7 +564,7 @@
         "wrapText": false,
         "className": "",
         "x": 730,
-        "y": 360,
+        "y": 520,
         "wires": []
     },
     {
@@ -552,7 +572,7 @@
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
         "group": "abad05159d44bdd0",
-        "order": 3,
+        "order": 9,
         "width": 0,
         "height": 0,
         "name": "Altitude",
@@ -566,7 +586,7 @@
         "wrapText": false,
         "className": "",
         "x": 740,
-        "y": 400,
+        "y": 560,
         "wires": []
     },
     {
@@ -574,7 +594,7 @@
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
         "group": "abad05159d44bdd0",
-        "order": 2,
+        "order": 8,
         "width": 0,
         "height": 0,
         "name": "Lat",
@@ -588,7 +608,7 @@
         "wrapText": false,
         "className": "",
         "x": 730,
-        "y": 440,
+        "y": 600,
         "wires": []
     },
     {
@@ -596,7 +616,7 @@
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
         "group": "abad05159d44bdd0",
-        "order": 1,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "Long",
@@ -610,7 +630,157 @@
         "wrapText": false,
         "className": "",
         "x": 730,
-        "y": 480,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ea36156bf1d16ec9",
+        "type": "ui-gauge",
+        "z": "a3f29ed2e61d945b",
+        "name": "Roll_Gauge",
+        "group": "abad05159d44bdd0",
+        "order": 1,
+        "width": "2",
+        "height": "2",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Roll",
+        "units": "",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-3.15",
+                "color": "#ea5353"
+            },
+            {
+                "from": "-2",
+                "color": "#ff8000"
+            },
+            {
+                "from": "-1",
+                "color": "#00ff00"
+            },
+            {
+                "from": "1",
+                "color": "#ff8000"
+            },
+            {
+                "from": "2",
+                "color": "#ff0000"
+            }
+        ],
+        "min": "-3.15",
+        "max": "3.15",
+        "sizeThickness": "0",
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 750,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "38e353616ee0d1f3",
+        "type": "ui-gauge",
+        "z": "a3f29ed2e61d945b",
+        "name": "Yaw_Gauge",
+        "group": "abad05159d44bdd0",
+        "order": 2,
+        "width": "2",
+        "height": "2",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Yaw",
+        "units": "",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-3.15",
+                "color": "#ea5353"
+            },
+            {
+                "from": "-2",
+                "color": "#ff8000"
+            },
+            {
+                "from": "-1",
+                "color": "#00ff00"
+            },
+            {
+                "from": "1",
+                "color": "#ff8000"
+            },
+            {
+                "from": "2",
+                "color": "#ff0000"
+            }
+        ],
+        "min": "-3.15",
+        "max": "3.15",
+        "sizeThickness": "0",
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 750,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "52428032261a2859",
+        "type": "ui-gauge",
+        "z": "a3f29ed2e61d945b",
+        "name": "Pitch_Gauge",
+        "group": "abad05159d44bdd0",
+        "order": 3,
+        "width": "2",
+        "height": "2",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Pitch",
+        "units": "",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-1.6",
+                "color": "#ea5353"
+            },
+            {
+                "from": "-0.8",
+                "color": "#ff8000"
+            },
+            {
+                "from": "-0.5",
+                "color": "#00ff00"
+            },
+            {
+                "from": "0.5",
+                "color": "#ff8000"
+            },
+            {
+                "from": "1",
+                "color": "#ff0000"
+            }
+        ],
+        "min": "-1.6",
+        "max": "1.6",
+        "sizeThickness": "0",
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 750,
+        "y": 360,
         "wires": []
     }
 ]
