@@ -51,26 +51,8 @@ class Drone:
         )
         return {"status": "Landing"}
     
-    def change_mode(self, mode: str):
-        if mode not in self.connection.mode_mapping():
-            return {"error": f"Mode {mode} not supported. Try: {list(self.connection.mode_mapping().keys())}"}
-        mode_id = self.connection.mode_mapping()[mode]
-        # Set new mode
+    def change_mode(self, mode_id: int):
         self.connection.set_mode(mode_id)
-        for _ in range(0, 10):
-            # Wait for ACK command
-            # Would be good to add mechanism to avoid endlessly blocking
-            # if the autopilot sends a NACK or never receives the message
-            ack_msg = self.connection.recv_match(type='COMMAND_ACK', blocking=True)
-            ack_msg = ack_msg.to_dict()
-
-            # Continue waiting if the acknowledged command is not `set_mode`
-            if ack_msg['command'] != mavutil.mavlink.MAV_CMD_DO_SET_MODE:
-                continue
-
-            # Print the ACK result !
-            print(mavutil.mavlink.enums['MAV_RESULT'][ack_msg['result']].description)
-            break
 
     def get_modes(self):
         return self.connection.mode_mapping()

@@ -2,15 +2,23 @@
     {
         "id": "a3f29ed2e61d945b",
         "type": "tab",
-        "label": "MQTT",
+        "label": "SYS_STATUS",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "18cde6ab13f29a2c",
+        "id": "954f8f10968a3597",
         "type": "tab",
-        "label": "API",
+        "label": "AHRS2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e359f69c6c85966b",
+        "type": "tab",
+        "label": "HEARTBEAT",
         "disabled": false,
         "info": "",
         "env": []
@@ -96,23 +104,23 @@
         "breakpoints": [
             {
                 "name": "Default",
-                "px": 0,
-                "cols": 3
+                "px": "0",
+                "cols": "3"
             },
             {
                 "name": "Tablet",
-                "px": 576,
-                "cols": 6
+                "px": "576",
+                "cols": "6"
             },
             {
                 "name": "Small Desktop",
-                "px": 768,
-                "cols": 9
+                "px": "768",
+                "cols": "9"
             },
             {
                 "name": "Desktop",
-                "px": 1024,
-                "cols": 12
+                "px": "1024",
+                "cols": "12"
             }
         ],
         "order": 1,
@@ -163,27 +171,6 @@
         "groupType": "default"
     },
     {
-        "id": "e892cdafa0face65",
-        "type": "mqtt in",
-        "z": "a3f29ed2e61d945b",
-        "name": "AHRS2",
-        "topic": "iotdrone/AHRS2",
-        "qos": "2",
-        "datatype": "json",
-        "broker": "fbe18a22f08badf1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 90,
-        "y": 320,
-        "wires": [
-            [
-                "12dca2890debaaa3"
-            ]
-        ]
-    },
-    {
         "id": "8f2a07a8d6caa617",
         "type": "mqtt in",
         "z": "a3f29ed2e61d945b",
@@ -201,27 +188,6 @@
         "wires": [
             [
                 "2b0e558b06b3e180"
-            ]
-        ]
-    },
-    {
-        "id": "e6b910d81ab2dd91",
-        "type": "mqtt in",
-        "z": "a3f29ed2e61d945b",
-        "name": "HEARTBEAT",
-        "topic": "iotdrone/HEARTBEAT",
-        "qos": "2",
-        "datatype": "json",
-        "broker": "fbe18a22f08badf1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 90,
-        "y": 820,
-        "wires": [
-            [
-                "0999a3910531f7de"
             ]
         ]
     },
@@ -366,32 +332,36 @@
         "wires": []
     },
     {
-        "id": "0999a3910531f7de",
-        "type": "json",
-        "z": "a3f29ed2e61d945b",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 330,
-        "y": 820,
+        "id": "e892cdafa0face65",
+        "type": "mqtt in",
+        "z": "954f8f10968a3597",
+        "name": "AHRS2",
+        "topic": "iotdrone/AHRS2",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 70,
+        "y": 60,
         "wires": [
             [
-                "16623fa7e283ef54",
-                "bddc5379a16ccc56"
+                "12dca2890debaaa3"
             ]
         ]
     },
     {
         "id": "12dca2890debaaa3",
         "type": "json",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 350,
-        "y": 320,
+        "x": 330,
+        "y": 60,
         "wires": [
             [
                 "88850ebc6600c796",
@@ -406,7 +376,7 @@
     {
         "id": "88850ebc6600c796",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "roll",
         "func": "\nreturn [{ \"payload\": `${msg.payload.roll.toFixed(4)}` }];",
         "outputs": 1,
@@ -415,8 +385,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 300,
+        "x": 510,
+        "y": 40,
         "wires": [
             [
                 "803c2d176dac413b",
@@ -427,7 +397,7 @@
     {
         "id": "f484c3d4cf101d40",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "pitch",
         "func": "\nreturn [{ \"payload\": `${msg.payload.pitch.toFixed(4) }` }];",
         "outputs": 1,
@@ -436,8 +406,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 420,
+        "x": 510,
+        "y": 160,
         "wires": [
             [
                 "93d28f94b0a51473",
@@ -448,7 +418,7 @@
     {
         "id": "ec7c649c6107fd6b",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "yaw",
         "func": "\nreturn [{ \"payload\": `${msg.payload.yaw.toFixed(4)}` }];",
         "outputs": 1,
@@ -457,8 +427,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 520,
+        "x": 510,
+        "y": 260,
         "wires": [
             [
                 "efd408c7fac38cda",
@@ -469,7 +439,7 @@
     {
         "id": "7de286714a07f238",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "altitude",
         "func": "\nreturn [{ \"payload\": `${msg.payload.altitude.toFixed(2)}` }];",
         "outputs": 1,
@@ -478,8 +448,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
-        "y": 560,
+        "x": 520,
+        "y": 420,
         "wires": [
             [
                 "3a14f75912e8eb5c"
@@ -489,7 +459,7 @@
     {
         "id": "54adebd648546d65",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "lat",
         "func": "\nreturn [{ \"payload\": `${(msg.payload.lat / 10_000_000).toFixed(2)}` }];",
         "outputs": 1,
@@ -498,8 +468,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 600,
+        "x": 510,
+        "y": 340,
         "wires": [
             [
                 "95ac7753b12db1e6"
@@ -509,7 +479,7 @@
     {
         "id": "d31978386ee285cd",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "long",
         "func": "\nreturn [{ \"payload\": `${(msg.payload.lng / 10_000_000).toFixed(2)}` }];",
         "outputs": 1,
@@ -518,8 +488,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 640,
+        "x": 510,
+        "y": 380,
         "wires": [
             [
                 "20ec1ce65c7b3809"
@@ -529,7 +499,7 @@
     {
         "id": "803c2d176dac413b",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "d": true,
         "group": "abad05159d44bdd0",
         "order": 4,
@@ -545,14 +515,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 730,
-        "y": 300,
+        "x": 710,
+        "y": 60,
         "wires": []
     },
     {
         "id": "93d28f94b0a51473",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "d": true,
         "group": "abad05159d44bdd0",
         "order": 6,
@@ -568,14 +538,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 730,
-        "y": 420,
+        "x": 710,
+        "y": 160,
         "wires": []
     },
     {
         "id": "efd408c7fac38cda",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "d": true,
         "group": "abad05159d44bdd0",
         "order": 5,
@@ -591,14 +561,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 730,
-        "y": 520,
+        "x": 710,
+        "y": 260,
         "wires": []
     },
     {
         "id": "3a14f75912e8eb5c",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "group": "abad05159d44bdd0",
         "order": 9,
         "width": 0,
@@ -613,14 +583,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 740,
-        "y": 560,
+        "x": 720,
+        "y": 420,
         "wires": []
     },
     {
         "id": "95ac7753b12db1e6",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "group": "abad05159d44bdd0",
         "order": 8,
         "width": 0,
@@ -635,14 +605,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 730,
-        "y": 600,
+        "x": 710,
+        "y": 340,
         "wires": []
     },
     {
         "id": "20ec1ce65c7b3809",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "group": "abad05159d44bdd0",
         "order": 7,
         "width": 0,
@@ -657,14 +627,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 730,
-        "y": 640,
+        "x": 710,
+        "y": 380,
         "wires": []
     },
     {
         "id": "ea36156bf1d16ec9",
         "type": "ui-gauge",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "Roll_Gauge",
         "group": "abad05159d44bdd0",
         "order": 1,
@@ -707,14 +677,14 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 750,
-        "y": 240,
+        "x": 730,
+        "y": 20,
         "wires": []
     },
     {
         "id": "38e353616ee0d1f3",
         "type": "ui-gauge",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "Yaw_Gauge",
         "group": "abad05159d44bdd0",
         "order": 2,
@@ -757,14 +727,14 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 750,
-        "y": 460,
+        "x": 730,
+        "y": 200,
         "wires": []
     },
     {
         "id": "52428032261a2859",
         "type": "ui-gauge",
-        "z": "a3f29ed2e61d945b",
+        "z": "954f8f10968a3597",
         "name": "Pitch_Gauge",
         "group": "abad05159d44bdd0",
         "order": 3,
@@ -807,14 +777,131 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 750,
-        "y": 360,
+        "x": 730,
+        "y": 100,
         "wires": []
+    },
+    {
+        "id": "f654c8a970d34eb1",
+        "type": "mqtt in",
+        "z": "954f8f10968a3597",
+        "name": "AHRS2",
+        "topic": "iotdrone/GLOBAL_POSITION_INT",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 70,
+        "y": 460,
+        "wires": [
+            [
+                "27518ef8e3456921"
+            ]
+        ]
+    },
+    {
+        "id": "27518ef8e3456921",
+        "type": "json",
+        "z": "954f8f10968a3597",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 500,
+        "wires": [
+            [
+                "3943f4f2f5d85e83"
+            ]
+        ]
+    },
+    {
+        "id": "3943f4f2f5d85e83",
+        "type": "function",
+        "z": "954f8f10968a3597",
+        "name": "relative altitude",
+        "func": "\nreturn [{ \"payload\": `${(msg.payload.relative_alt/1000).toFixed(2)}` }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 500,
+        "wires": [
+            [
+                "68aa692e0908c6dc"
+            ]
+        ]
+    },
+    {
+        "id": "68aa692e0908c6dc",
+        "type": "ui-text",
+        "z": "954f8f10968a3597",
+        "group": "abad05159d44bdd0",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "name": "Relative Altitude",
+        "label": "Relative altitude",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 760,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "e6b910d81ab2dd91",
+        "type": "mqtt in",
+        "z": "e359f69c6c85966b",
+        "name": "HEARTBEAT",
+        "topic": "iotdrone/HEARTBEAT",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "0999a3910531f7de"
+            ]
+        ]
+    },
+    {
+        "id": "0999a3910531f7de",
+        "type": "json",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 100,
+        "wires": [
+            [
+                "16623fa7e283ef54",
+                "bddc5379a16ccc56"
+            ]
+        ]
     },
     {
         "id": "16623fa7e283ef54",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "name": "base_mode",
         "func": "const base_mode = msg.payload.base_mode;\nconst payload = base_mode & 0b10000000 ? \"yes\" : \"no\";\n\n\nreturn [{ payload }];",
         "outputs": 1,
@@ -823,8 +910,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 550,
-        "y": 760,
+        "x": 570,
+        "y": 40,
         "wires": [
             [
                 "6646b65dee379df8"
@@ -834,7 +921,7 @@
     {
         "id": "bddc5379a16ccc56",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "name": "custom_mode",
         "func": "\nreturn [{ \"payload\": msg.payload.custom_mode }];",
         "outputs": 1,
@@ -843,8 +930,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
-        "y": 880,
+        "x": 560,
+        "y": 160,
         "wires": [
             [
                 "38ede08fe8ff4ad1"
@@ -854,9 +941,9 @@
     {
         "id": "6646b65dee379df8",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "group": "5c8233a0133eb7b8",
-        "order": 2,
+        "order": 4,
         "width": 0,
         "height": 0,
         "name": "armed",
@@ -869,16 +956,16 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 770,
-        "y": 760,
+        "x": 790,
+        "y": 40,
         "wires": []
     },
     {
         "id": "d135d67205a7d878",
         "type": "ui-text",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "group": "5c8233a0133eb7b8",
-        "order": 3,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "Custom mode",
@@ -891,14 +978,14 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 1100,
-        "y": 1020,
+        "x": 1120,
+        "y": 300,
         "wires": []
     },
     {
         "id": "38ede08fe8ff4ad1",
         "type": "rbe",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "name": "",
         "func": "rbe",
         "gap": "",
@@ -907,8 +994,8 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 750,
-        "y": 880,
+        "x": 770,
+        "y": 160,
         "wires": [
             [
                 "e5727495dc4eef7f"
@@ -918,7 +1005,7 @@
     {
         "id": "e5727495dc4eef7f",
         "type": "http request",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "name": "",
         "method": "GET",
         "ret": "obj",
@@ -931,18 +1018,19 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 910,
-        "y": 880,
+        "x": 930,
+        "y": 160,
         "wires": [
             [
-                "409c5fb59330efbf"
+                "409c5fb59330efbf",
+                "178b312b36b52234"
             ]
         ]
     },
     {
         "id": "409c5fb59330efbf",
         "type": "function",
-        "z": "a3f29ed2e61d945b",
+        "z": "e359f69c6c85966b",
         "name": "function 1",
         "func": "// Extract the mode_name value and set it as the new payload\nmsg.payload = msg.payload.mode_name;\nreturn msg;\n",
         "outputs": 1,
@@ -951,8 +1039,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 900,
-        "y": 1020,
+        "x": 1100,
+        "y": 120,
         "wires": [
             [
                 "d135d67205a7d878"
@@ -960,10 +1048,142 @@
         ]
     },
     {
-        "id": "2915fba8d66d7480",
+        "id": "fa78027074b39269",
+        "type": "inject",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 440,
+        "wires": [
+            [
+                "7608bcc9c8d2f182"
+            ]
+        ]
+    },
+    {
+        "id": "7608bcc9c8d2f182",
+        "type": "http request",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "localhost:5000/modes",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 290,
+        "y": 440,
+        "wires": [
+            [
+                "2f8069ba949ca8a6",
+                "78f54150ed509b6e"
+            ]
+        ]
+    },
+    {
+        "id": "9d02e31384d8b911",
         "type": "debug",
-        "z": "18cde6ab13f29a2c",
-        "name": "debug 1",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "ada30991fa51525c",
+        "type": "ui-dropdown",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "name": "Status select",
+        "label": "Select mode:",
+        "tooltip": "",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "typeIsComboBox": false,
+        "msgTrigger": "onChange",
+        "x": 990,
+        "y": 440,
+        "wires": [
+            [
+                "e89874cc6a3b2f67",
+                "aa44f3150ea514aa",
+                "fe5e22ad06ea8e20"
+            ]
+        ]
+    },
+    {
+        "id": "2f8069ba949ca8a6",
+        "type": "function",
+        "z": "e359f69c6c85966b",
+        "name": "function 2",
+        "func": "// Assuming msg.payload contains the dictionary\nconst receivedDict = msg.payload; // e.g., { \"Option1\": 1, \"Option2\": 2, \"Option3\": 3 }\n\n// Convert the dictionary into an array of { label, value } objects\nmsg.options = Object.entries(receivedDict).map(([key, value]) => ({\n    label: key,   // Use the dictionary key as the label\n    value: value  // Use the dictionary value as the value\n}));\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 440,
+        "wires": [
+            [
+                "9d02e31384d8b911",
+                "ada30991fa51525c"
+            ]
+        ]
+    },
+    {
+        "id": "78f54150ed509b6e",
+        "type": "debug",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 3",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -973,19 +1193,335 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 460,
-        "y": 40,
+        "y": 500,
         "wires": []
     },
     {
-        "id": "4e60411c6ce19d78",
-        "type": "ui-button",
-        "z": "18cde6ab13f29a2c",
-        "group": "5c8233a0133eb7b8",
+        "id": "261ac62187660253",
+        "type": "debug",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "178b312b36b52234",
+        "type": "function",
+        "z": "e359f69c6c85966b",
+        "name": "function 3",
+        "func": "msg.payload = msg.payload.mode_id;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 380,
+        "wires": [
+            [
+                "261ac62187660253",
+                "ada30991fa51525c"
+            ]
+        ]
+    },
+    {
+        "id": "2915fba8d66d7480",
+        "type": "debug",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e3f5707eef5b2cf2",
+        "type": "http request",
+        "z": "e359f69c6c85966b",
+        "name": "set mode",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "127.0.0.1:5000/mode",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 720,
+        "wires": [
+            [
+                "2915fba8d66d7480"
+            ]
+        ]
+    },
+    {
+        "id": "e89874cc6a3b2f67",
+        "type": "function",
+        "z": "e359f69c6c85966b",
+        "name": "function 4",
+        "func": "msg.payload = { \"mode_id\": msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 620,
+        "wires": [
+            [
+                "e3f5707eef5b2cf2",
+                "9ad2da1aea68b53c"
+            ]
+        ]
+    },
+    {
+        "id": "aa44f3150ea514aa",
+        "type": "debug",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9ad2da1aea68b53c",
+        "type": "debug",
+        "z": "e359f69c6c85966b",
+        "d": true,
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "59a8f74b8ad4ab08",
+        "type": "mqtt in",
+        "z": "e359f69c6c85966b",
         "name": "",
-        "label": "button",
-        "order": 1,
+        "topic": "iotdrone/STATUSTEXT",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 800,
+        "wires": [
+            [
+                "a60c2079a121afd1"
+            ]
+        ]
+    },
+    {
+        "id": "a60c2079a121afd1",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 800,
+        "wires": [
+            [
+                "b3b00e89612ca801"
+            ]
+        ]
+    },
+    {
+        "id": "b3b00e89612ca801",
+        "type": "ui-text",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "order": 7,
         "width": 0,
         "height": 0,
+        "name": "Status text",
+        "label": "Status text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 1130,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "fe5e22ad06ea8e20",
+        "type": "function",
+        "z": "e359f69c6c85966b",
+        "name": "clear",
+        "func": "msg.payload = null;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 640,
+        "wires": [
+            [
+                "b3b00e89612ca801"
+            ]
+        ]
+    },
+    {
+        "id": "b4ff085cb7ec2527",
+        "type": "ui-button",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "name": "Takeoff",
+        "label": "Takeoff",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 100,
+        "y": 900,
+        "wires": [
+            [
+                "b296607555fd09b9"
+            ]
+        ]
+    },
+    {
+        "id": "61e7d83f34123fbb",
+        "type": "http request",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "localhost:5000/command",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b296607555fd09b9",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"takeoff\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 900,
+        "wires": [
+            [
+                "61e7d83f34123fbb"
+            ]
+        ]
+    },
+    {
+        "id": "252871857fc6a9bd",
+        "type": "ui-button",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "name": "Arm",
+        "label": "Arm",
+        "order": 2,
+        "width": "2",
+        "height": "1",
         "emulateClick": false,
         "tooltip": "",
         "color": "",
@@ -1008,22 +1544,22 @@
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
         "x": 90,
-        "y": 40,
+        "y": 960,
         "wires": [
             [
-                "e3f5707eef5b2cf2"
+                "0502dc5cc41c250d"
             ]
         ]
     },
     {
-        "id": "e3f5707eef5b2cf2",
+        "id": "e0526cf8c84e2de2",
         "type": "http request",
-        "z": "18cde6ab13f29a2c",
+        "z": "e359f69c6c85966b",
         "name": "",
-        "method": "GET",
-        "ret": "txt",
+        "method": "POST",
+        "ret": "obj",
         "paytoqs": "ignore",
-        "url": "127.0.0.1:5000/modes",
+        "url": "localhost:5000/command",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1031,11 +1567,124 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 270,
-        "y": 40,
+        "x": 450,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0502dc5cc41c250d",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"arm\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 960,
         "wires": [
             [
-                "2915fba8d66d7480"
+                "e0526cf8c84e2de2"
+            ]
+        ]
+    },
+    {
+        "id": "37a352e6a5da747e",
+        "type": "ui-button",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "name": "Disarm",
+        "label": "Disarm",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 100,
+        "y": 1020,
+        "wires": [
+            [
+                "b82e41794f61dac7"
+            ]
+        ]
+    },
+    {
+        "id": "7032743ff64499a8",
+        "type": "http request",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "localhost:5000/command",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b82e41794f61dac7",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"disarm\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 1020,
+        "wires": [
+            [
+                "7032743ff64499a8"
             ]
         ]
     }
