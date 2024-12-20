@@ -9,18 +9,17 @@ services:
       - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
-    networks:
-      - drone-network
+    network_mode: host
 
   ardupilot-sitl:
     build:
       context: ./ardupilot-sitl
     container_name: ardupilot-sitl
-    network_mode: host
     depends_on:
       - mqtt
     ports:
       - "14550:14550"
+    network_mode: host
 
   node-red:
     image: nodered/node-red
@@ -31,9 +30,14 @@ services:
       - mqtt
     volumes:
       - ./node-red/data:/data
-    networks:
-      - drone-network
+    network_mode: host
 
-networks:
-  drone-network:
-    driver: bridge
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mqtt
+    network_mode: host
