@@ -2,7 +2,15 @@
     {
         "id": "a3f29ed2e61d945b",
         "type": "tab",
-        "label": "SYS_STATUS",
+        "label": "MQTT",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "18cde6ab13f29a2c",
+        "type": "tab",
+        "label": "API",
         "disabled": false,
         "info": "",
         "env": []
@@ -11,7 +19,7 @@
         "id": "fbe18a22f08badf1",
         "type": "mqtt-broker",
         "name": "mosquitto",
-        "broker": "mqtt",
+        "broker": "127.0.0.1",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,
@@ -119,7 +127,7 @@
         "page": "fd2ca1fe22236cb5",
         "width": "6",
         "height": "1",
-        "order": 1,
+        "order": 2,
         "showTitle": true,
         "className": "",
         "visible": "true",
@@ -129,16 +137,51 @@
     {
         "id": "2f2ef0710be32fdd",
         "type": "ui-group",
-        "name": "Status",
+        "name": "Battery",
         "page": "fd2ca1fe22236cb5",
         "width": "6",
         "height": "1",
-        "order": 2,
+        "order": 3,
         "showTitle": true,
         "className": "",
         "visible": "true",
         "disabled": "false",
         "groupType": "default"
+    },
+    {
+        "id": "5c8233a0133eb7b8",
+        "type": "ui-group",
+        "name": "Status",
+        "page": "fd2ca1fe22236cb5",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "e892cdafa0face65",
+        "type": "mqtt in",
+        "z": "a3f29ed2e61d945b",
+        "name": "AHRS2",
+        "topic": "iotdrone/AHRS2",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 320,
+        "wires": [
+            [
+                "12dca2890debaaa3"
+            ]
+        ]
     },
     {
         "id": "8f2a07a8d6caa617",
@@ -174,10 +217,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 110,
-        "y": 600,
+        "x": 90,
+        "y": 820,
         "wires": [
-            []
+            [
+                "0999a3910531f7de"
+            ]
         ]
     },
     {
@@ -222,6 +267,7 @@
         "id": "f2a03f3ab5eaca22",
         "type": "debug",
         "z": "a3f29ed2e61d945b",
+        "d": true,
         "name": "battery_remaining",
         "active": true,
         "tosidebar": true,
@@ -327,30 +373,12 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 350,
-        "y": 600,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e892cdafa0face65",
-        "type": "mqtt in",
-        "z": "a3f29ed2e61d945b",
-        "name": "AHRS2",
-        "topic": "iotdrone/AHRS2",
-        "qos": "2",
-        "datatype": "json",
-        "broker": "fbe18a22f08badf1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 90,
-        "y": 320,
+        "x": 330,
+        "y": 820,
         "wires": [
             [
-                "12dca2890debaaa3"
+                "16623fa7e283ef54",
+                "bddc5379a16ccc56"
             ]
         ]
     },
@@ -782,5 +810,233 @@
         "x": 750,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "16623fa7e283ef54",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "base_mode",
+        "func": "const base_mode = msg.payload.base_mode;\nconst payload = base_mode & 0b10000000 ? \"yes\" : \"no\";\n\n\nreturn [{ payload }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 760,
+        "wires": [
+            [
+                "6646b65dee379df8"
+            ]
+        ]
+    },
+    {
+        "id": "bddc5379a16ccc56",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "custom_mode",
+        "func": "\nreturn [{ \"payload\": msg.payload.custom_mode }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 880,
+        "wires": [
+            [
+                "38ede08fe8ff4ad1"
+            ]
+        ]
+    },
+    {
+        "id": "6646b65dee379df8",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "5c8233a0133eb7b8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "armed",
+        "label": "Armed",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 770,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "d135d67205a7d878",
+        "type": "ui-text",
+        "z": "a3f29ed2e61d945b",
+        "group": "5c8233a0133eb7b8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Custom mode",
+        "label": "Current mode",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "x": 1100,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "38ede08fe8ff4ad1",
+        "type": "rbe",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 750,
+        "y": 880,
+        "wires": [
+            [
+                "e5727495dc4eef7f"
+            ]
+        ]
+    },
+    {
+        "id": "e5727495dc4eef7f",
+        "type": "http request",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "127.0.0.1:5000/mode/{{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 910,
+        "y": 880,
+        "wires": [
+            [
+                "409c5fb59330efbf"
+            ]
+        ]
+    },
+    {
+        "id": "409c5fb59330efbf",
+        "type": "function",
+        "z": "a3f29ed2e61d945b",
+        "name": "function 1",
+        "func": "// Extract the mode_name value and set it as the new payload\nmsg.payload = msg.payload.mode_name;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 1020,
+        "wires": [
+            [
+                "d135d67205a7d878"
+            ]
+        ]
+    },
+    {
+        "id": "2915fba8d66d7480",
+        "type": "debug",
+        "z": "18cde6ab13f29a2c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "4e60411c6ce19d78",
+        "type": "ui-button",
+        "z": "18cde6ab13f29a2c",
+        "group": "5c8233a0133eb7b8",
+        "name": "",
+        "label": "button",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 90,
+        "y": 40,
+        "wires": [
+            [
+                "e3f5707eef5b2cf2"
+            ]
+        ]
+    },
+    {
+        "id": "e3f5707eef5b2cf2",
+        "type": "http request",
+        "z": "18cde6ab13f29a2c",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "127.0.0.1:5000/modes",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 270,
+        "y": 40,
+        "wires": [
+            [
+                "2915fba8d66d7480"
+            ]
+        ]
     }
 ]

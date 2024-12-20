@@ -52,12 +52,16 @@ def get_status():
 @app.route('/modes', methods=['GET'])
 def get_modes():
     modes = drone.get_modes()
-    return jsonify(list(modes.keys())), 200
+    return jsonify(modes), 200
 
-@app.route('/modes/current', methods=['GET'])
-def get_current_mode():
-    current_mode = api.get_current_mode()
-    return jsonify(current_mode), 200
-                        
+@app.route('/mode/<int:mode_id>', methods=['GET'])
+def get_mode(mode_id):
+    modes = drone.get_modes()
+    # Invert the dictionary
+    modes = {v: k for k, v in modes.items()}
+    print(modes)
+    mode_name = modes[mode_id]
+    return jsonify({"mode_name": mode_name}), 200
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

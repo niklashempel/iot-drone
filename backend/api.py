@@ -14,15 +14,4 @@ class MAVLink2Rest():
     
     def is_armed(self):
         heartbeat = self.get_heartbeat()
-        return heartbeat['message']['base_mode']['bits'] & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED != 0
-    
-    def get_current_mode(self):
-        heartbeat = self.get_heartbeat()
-        custom_mode = heartbeat['message']['custom_mode']
-        print(f"Current mode ID: {custom_mode}")
-        modes = self.drone.get_modes()
-        for mode_name, mode_id in modes.items():
-            if mode_id == custom_mode:
-                return mode_name
-        return "Unknown"
-    
+        return heartbeat['message']['base_mode']['bits'] & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED != 0    
