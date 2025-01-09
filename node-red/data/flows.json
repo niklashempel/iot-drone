@@ -95,9 +95,9 @@
     {
         "id": "fd2ca1fe22236cb5",
         "type": "ui-page",
-        "name": "Page 1",
+        "name": "Home",
         "ui": "090cd81984289984",
-        "path": "/page1",
+        "path": "/home",
         "icon": "home",
         "layout": "grid",
         "theme": "bb1d6509be504798",
@@ -143,20 +143,6 @@
         "groupType": "default"
     },
     {
-        "id": "2f2ef0710be32fdd",
-        "type": "ui-group",
-        "name": "Battery",
-        "page": "fd2ca1fe22236cb5",
-        "width": "6",
-        "height": "1",
-        "order": 3,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
-    },
-    {
         "id": "5c8233a0133eb7b8",
         "type": "ui-group",
         "name": "Status",
@@ -169,6 +155,17 @@
         "visible": "true",
         "disabled": "false",
         "groupType": "default"
+    },
+    {
+        "id": "9fc19631ddbedeb5",
+        "type": "ui-spacer",
+        "group": "5c8233a0133eb7b8",
+        "name": "spacer",
+        "tooltip": "",
+        "order": 8,
+        "width": "1",
+        "height": "1",
+        "className": ""
     },
     {
         "id": "8f2a07a8d6caa617",
@@ -203,8 +200,7 @@
         "y": 220,
         "wires": [
             [
-                "009b7e38581b90a1",
-                "8b644dc1dac3a0ae"
+                "009b7e38581b90a1"
             ]
         ]
     },
@@ -252,8 +248,8 @@
         "type": "ui-gauge",
         "z": "a3f29ed2e61d945b",
         "name": "Battery remaning",
-        "group": "2f2ef0710be32fdd",
-        "order": 2,
+        "group": "5c8233a0133eb7b8",
+        "order": 9,
         "width": 3,
         "height": 3,
         "gtype": "gauge-battery",
@@ -294,15 +290,15 @@
         "type": "function",
         "z": "a3f29ed2e61d945b",
         "name": "Battery voltage Volt",
-        "func": "\nreturn [{ \"payload\": `${msg.payload.voltage_battery / 1000}V` }];",
+        "func": "\nreturn [{ \"payload\": `${msg.payload.Vcc / 1000}V` }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 180,
+        "x": 610,
+        "y": 300,
         "wires": [
             [
                 "e4ecfd4b81b68dfa"
@@ -313,8 +309,8 @@
         "id": "e4ecfd4b81b68dfa",
         "type": "ui-text",
         "z": "a3f29ed2e61d945b",
-        "group": "2f2ef0710be32fdd",
-        "order": 1,
+        "group": "5c8233a0133eb7b8",
+        "order": 10,
         "width": 0,
         "height": 0,
         "name": "Battery voltage",
@@ -330,6 +326,43 @@
         "x": 800,
         "y": 180,
         "wires": []
+    },
+    {
+        "id": "a24764c9ca741aed",
+        "type": "json",
+        "z": "a3f29ed2e61d945b",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 350,
+        "y": 340,
+        "wires": [
+            [
+                "8b644dc1dac3a0ae"
+            ]
+        ]
+    },
+    {
+        "id": "7333275f9164815a",
+        "type": "mqtt in",
+        "z": "a3f29ed2e61d945b",
+        "name": "POWER_STATUS",
+        "topic": "iotdrone/POWER_STATUS",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fbe18a22f08badf1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "a24764c9ca741aed"
+            ]
+        ]
     },
     {
         "id": "e892cdafa0face65",
@@ -903,7 +936,7 @@
         "type": "function",
         "z": "e359f69c6c85966b",
         "name": "base_mode",
-        "func": "const base_mode = msg.payload.base_mode;\nconst payload = base_mode & 0b10000000 ? \"yes\" : \"no\";\n\n\nreturn [{ payload }];",
+        "func": "const base_mode = msg.payload.base_mode;\nconst payload = base_mode & 0b10000000;\n\nreturn [{ payload }];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -911,10 +944,12 @@
         "finalize": "",
         "libs": [],
         "x": 570,
-        "y": 40,
+        "y": 60,
         "wires": [
             [
-                "6646b65dee379df8"
+                "a6d44d74dc09be43",
+                "11f2f05c0ced41d8",
+                "4ed7ef58c0d88c5b"
             ]
         ]
     },
@@ -956,8 +991,8 @@
         "color": "#717171",
         "wrapText": false,
         "className": "",
-        "x": 790,
-        "y": 40,
+        "x": 930,
+        "y": 60,
         "wires": []
     },
     {
@@ -1601,45 +1636,6 @@
         ]
     },
     {
-        "id": "37a352e6a5da747e",
-        "type": "ui-button",
-        "z": "e359f69c6c85966b",
-        "group": "5c8233a0133eb7b8",
-        "name": "Disarm",
-        "label": "Disarm",
-        "order": 3,
-        "width": "2",
-        "height": "1",
-        "emulateClick": false,
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "iconPosition": "left",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 100,
-        "y": 1020,
-        "wires": [
-            [
-                "b82e41794f61dac7"
-            ]
-        ]
-    },
-    {
         "id": "7032743ff64499a8",
         "type": "http request",
         "z": "e359f69c6c85966b",
@@ -1685,6 +1681,239 @@
         "wires": [
             [
                 "7032743ff64499a8"
+            ]
+        ]
+    },
+    {
+        "id": "a6d44d74dc09be43",
+        "type": "function",
+        "z": "e359f69c6c85966b",
+        "name": "armed",
+        "func": "const payload = msg.payload ? \"yes\" : \"no\";\n\n\nreturn [{ payload }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 60,
+        "wires": [
+            [
+                "6646b65dee379df8"
+            ]
+        ]
+    },
+    {
+        "id": "11f2f05c0ced41d8",
+        "type": "switch",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "neq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "f4b4b2ca7029373c"
+            ],
+            [
+                "87243372ace31be9"
+            ]
+        ]
+    },
+    {
+        "id": "f4b4b2ca7029373c",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "Enable button",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 580,
+        "wires": [
+            [
+                "252871857fc6a9bd"
+            ]
+        ]
+    },
+    {
+        "id": "87243372ace31be9",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "Disable button",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 640,
+        "wires": [
+            [
+                "252871857fc6a9bd"
+            ]
+        ]
+    },
+    {
+        "id": "d5dcd9b4dfffad9d",
+        "type": "ui-button",
+        "z": "e359f69c6c85966b",
+        "group": "5c8233a0133eb7b8",
+        "name": "Disarm",
+        "label": "Disarm",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 100,
+        "y": 1020,
+        "wires": [
+            [
+                "b82e41794f61dac7"
+            ]
+        ]
+    },
+    {
+        "id": "4ed7ef58c0d88c5b",
+        "type": "switch",
+        "z": "e359f69c6c85966b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "neq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 340,
+        "wires": [
+            [
+                "5e33192602be6fde"
+            ],
+            [
+                "bdcfe95cbb316441"
+            ]
+        ]
+    },
+    {
+        "id": "bdcfe95cbb316441",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "Enable button",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 380,
+        "wires": [
+            [
+                "d5dcd9b4dfffad9d"
+            ]
+        ]
+    },
+    {
+        "id": "5e33192602be6fde",
+        "type": "change",
+        "z": "e359f69c6c85966b",
+        "name": "Disable button",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "d5dcd9b4dfffad9d"
             ]
         ]
     }
