@@ -18,16 +18,10 @@ Depending on whether we use a real drone or a simulated drone, we may can omit s
 
 ### Real drone
 
-Start MQTT Server and node-red
-
-```sh
-docker compose up mqtt node-red
-```
-
 Start MAVProxy
 
 ```sh
-mavproxy.py --master=tcp:127.0.0.1:5760 --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
+mavproxy.py --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
 ```
 
 Start the Flask server
@@ -38,6 +32,12 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python app.py
+```
+
+Start MQTT Server and node-red
+
+```sh
+docker compose up mqtt node-red
 ```
 
 ### Simulated drone
@@ -53,6 +53,8 @@ Start MAVProxy
 ```sh
 mavproxy.py --master=tcp:127.0.0.1:5760 --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
 ```
+
+Open http://localhost:1880/dashboard in a browser.
 
 ## MAVLink Communication
 

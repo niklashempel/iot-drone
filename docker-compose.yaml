@@ -35,7 +35,7 @@ services:
       - "1880:1880"
     depends_on:
       - mqtt
-      - backend
+      # - backend
     volumes:
       - ./node-red/data:/data
     network_mode: host
