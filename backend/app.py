@@ -15,30 +15,19 @@ drone.connect()
 def home():
     return render_template('index.html')
 
-@app.route('/command', methods=['POST'])
-def send_command():
-    command = request.json.get("command")
-    if not command:
-        return jsonify({"error": "No command provided"}), 400
+@app.route('/arm', methods=['POST'])
+def arm():
+    drone.arm()
+    return jsonify(), 200
 
-    if command == "arm":
-        drone.arm()
-        return jsonify(), 200
-    elif command == "disarm":
-        drone.disarm()
-        return jsonify(), 200
-    elif command == "takeoff":
-        return jsonify(drone.takeoff()), 200
-    elif command == "land":
-        return jsonify(drone.land()), 200
-    else:
-        return jsonify({"error": "Unsupported command"}), 400
+@app.route('/disarm', methods=['POST'])
+def disarm():
+    drone.disarm()
+    return jsonify(), 200
 
-@app.route('/status', methods=['GET'])
-def get_status():
-    current_mode = api.get_current_mode()
-    print(current_mode)
-    return jsonify(current_mode), 200
+@app.route('/takeoff', methods=['POST'])
+def takeoff():
+    return jsonify(drone.takeoff()), 200
 
 @app.route('/modes', methods=['GET'])
 def get_modes():

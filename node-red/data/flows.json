@@ -1494,7 +1494,7 @@
         "y": 900,
         "wires": [
             [
-                "b296607555fd09b9"
+                "61e7d83f34123fbb"
             ]
         ]
     },
@@ -1506,7 +1506,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "localhost:5000/command",
+        "url": "localhost:5000/takeoff",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1518,33 +1518,6 @@
         "y": 900,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "b296607555fd09b9",
-        "type": "change",
-        "z": "e359f69c6c85966b",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"command\":\"takeoff\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 260,
-        "y": 900,
-        "wires": [
-            [
-                "61e7d83f34123fbb"
-            ]
         ]
     },
     {
@@ -1582,7 +1555,7 @@
         "y": 960,
         "wires": [
             [
-                "0502dc5cc41c250d"
+                "e0526cf8c84e2de2"
             ]
         ]
     },
@@ -1594,7 +1567,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "localhost:5000/command",
+        "url": "localhost:5000/arm",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1606,33 +1579,6 @@
         "y": 960,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "0502dc5cc41c250d",
-        "type": "change",
-        "z": "e359f69c6c85966b",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"command\":\"arm\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 260,
-        "y": 960,
-        "wires": [
-            [
-                "e0526cf8c84e2de2"
-            ]
         ]
     },
     {
@@ -1643,7 +1589,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "localhost:5000/command",
+        "url": "localhost:5000/disarm",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1655,33 +1601,6 @@
         "y": 1020,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "b82e41794f61dac7",
-        "type": "change",
-        "z": "e359f69c6c85966b",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"command\":\"disarm\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 260,
-        "y": 1020,
-        "wires": [
-            [
-                "7032743ff64499a8"
-            ]
         ]
     },
     {
@@ -1826,7 +1745,7 @@
         "y": 1020,
         "wires": [
             [
-                "b82e41794f61dac7"
+                "7032743ff64499a8"
             ]
         ]
     },
