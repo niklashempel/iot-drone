@@ -34,7 +34,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Start MQTT Server and node-red
+Start MQTT Server and Node-RED
 
 ```sh
 docker compose up mqtt node-red
@@ -42,16 +42,32 @@ docker compose up mqtt node-red
 
 ### Simulated drone
 
-Start MQTT Server, node-red and SITL
+Start MQTT Server and SITL
 
 ```sh
-docker compose up mqtt node-red ardupilot-sitl
+docker compose up mqtt ardupilot-sitl
 ```
 
 Start MAVProxy
 
 ```sh
 mavproxy.py --master=tcp:127.0.0.1:5760 --baudrate 57600 --console --out=udp:127.0.0.1:14550 --cmd "module load mqtt" --cmd "mqtt set prefix iotdrone" --cmd "mqtt connect"
+```
+
+Start the Flask server
+
+```sh
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+
+Start Node-RED dashboard
+
+```sh
+docker compose up node-red
 ```
 
 Open http://localhost:1880/dashboard in a browser.
