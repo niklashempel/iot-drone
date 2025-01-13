@@ -1,10 +1,7 @@
-import time
 from flask import Flask, request, jsonify, render_template
 from drone import Drone
-from api import MAVLink2Rest
 
 app = Flask(__name__)
-api = MAVLink2Rest()
 
 drone = Drone()
 drone.connect()

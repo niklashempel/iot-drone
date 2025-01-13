@@ -1,5 +1,4 @@
 from pymavlink import mavutil
-import time
 
 class Drone:
     def __init__(self):
@@ -40,16 +39,6 @@ class Drone:
             0, 0, 0, 0, 0, 0, altitude
         )
         return {"status": f"Taking off to {altitude} meters"}
-    
-    def land(self):
-        self.connection.mav.command_long_send(
-            self.connection.target_system,
-            self.connection.target_component,
-            mavutil.mavlink.MAV_CMD_NAV_LAND,
-            0,
-            0, 0, 0, 0, 0, 0, 0
-        )
-        return {"status": "Landing"}
     
     def change_mode(self, mode_id: int):
         self.connection.set_mode(mode_id)
