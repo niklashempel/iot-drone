@@ -35,23 +35,6 @@ services:
       - "1880:1880"
     depends_on:
       - mqtt
-      # - backend
     volumes:
       - ./node-red/data:/data
-    network_mode: host
-
-  backend:
-    build:
-      context: ./backend
-    container_name: backend
-    ports:
-      - "3000:3000"
-    depends_on:
-      mqtt:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
-      interval: 10s
-      timeout: 10s
-      retries: 5
     network_mode: host
