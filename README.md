@@ -18,6 +18,12 @@ Depending on whether we use a real drone or a simulated drone, we may can omit s
 
 ### Real drone
 
+Start MQTT broker
+
+```sh
+docker compose up mqtt
+```
+
 Start MAVProxy
 
 ```sh
@@ -34,15 +40,17 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Start MQTT Server and Node-RED
+Start Node-RED
 
 ```sh
-docker compose up mqtt node-red
+docker compose up node-red
 ```
+
+Open http://localhost:1880/dashboard in a browser.
 
 ### Simulated drone
 
-Start MQTT Server and SITL
+Start MQTT broker and SITL
 
 ```sh
 docker compose up mqtt ardupilot-sitl
@@ -71,22 +79,3 @@ docker compose up node-red
 ```
 
 Open http://localhost:1880/dashboard in a browser.
-
-## MAVLink Communication
-
-Fly up and down:
-
-```sh
-mode stabilize
-arm throttle
-mode *guided*
-takeoff 10
-mode alt_hold
-land
-```
-
-Status:
-
-```sh
-status
-```
